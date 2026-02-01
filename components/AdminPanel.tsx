@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Stats, StreakData } from '../types';
-import { ShieldAlert, RefreshCw, X, Terminal, Database, Calendar, Activity } from 'lucide-react';
+import { ShieldAlert, RefreshCw, X, Database, Calendar, Activity, Zap, Unlock } from 'lucide-react';
 
 interface AdminPanelProps {
   isOpen: boolean;
@@ -17,6 +17,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({
   isOpen, onClose, stats, setStats, streak, setStreak, view 
 }) => {
   const [streakInput, setStreakInput] = useState(streak.count.toString());
+  const [levelInput, setLevelInput] = useState(stats.level.toString());
   
   if (!isOpen) return null;
 
@@ -27,26 +28,26 @@ const AdminPanel: React.FC<AdminPanelProps> = ({
     }
   };
 
+  const handleUpdateLevel = () => {
+    const lvl = parseInt(levelInput);
+    if (!isNaN(lvl)) {
+       // XP = (Level - 1)^2 * 100
+       const newXP = Math.pow(lvl - 1, 2) * 100;
+       setStats(prev => ({ ...prev, level: lvl, totalScore: newXP }));
+    }
+  };
+
+  const handleInfiniteXP = () => {
+    setStats(prev => ({ ...prev, totalScore: prev.totalScore + 1000000 }));
+  };
+
   const handleResetDaily = () => {
     setStreak(prev => ({ ...prev, lastDate: null }));
   };
 
-  const handleInjectStats = () => {
-    setStats(prev => ({
-      ...prev,
-      totalQuizzes: prev.totalQuizzes + 10,
-      totalScore: prev.totalScore + 8000,
-      totalCorrect: prev.totalCorrect + 100,
-      subjects: {
-        math: { correct: prev.subjects.math.correct + 50, incorrect: prev.subjects.math.incorrect + 5 },
-        english: { correct: prev.subjects.english.correct + 50, incorrect: prev.subjects.english.incorrect + 5 }
-      }
-    }));
-  };
-
   return (
     <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/90 backdrop-blur-xl p-4 animate-fade-in font-mono text-sm">
-      <div className="w-full max-w-2xl bg-gray-900 border border-red-500/30 rounded-lg shadow-2xl overflow-hidden relative">
+      <div className="w-full max-w-2xl bg-gray-900 border border-red-500/30 rounded-lg shadow-2xl overflow-hidden relative max-h-[90vh] overflow-y-auto">
         
         {/* Header */}
         <div className="bg-red-950/30 border-b border-red-500/20 p-4 flex items-center justify-between">
@@ -65,7 +66,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({
           {/* Streak Control */}
           <div className="space-y-4">
              <h3 className="text-gray-500 uppercase text-xs font-bold flex items-center gap-2">
-                <Calendar className="w-4 h-4" /> Streak Manager
+                <Calendar className="w-4 h-4" /> Streak & Level
              </h3>
              <div className="bg-black/40 p-4 rounded border border-gray-800 space-y-3">
                 <div className="flex gap-2">
@@ -83,11 +84,41 @@ const AdminPanel: React.FC<AdminPanelProps> = ({
                         Set
                     </button>
                 </div>
+                 <div className="flex gap-2">
+                    <input 
+                        type="number" 
+                        value={levelInput} 
+                        onChange={(e) => setLevelInput(e.target.value)}
+                        className="bg-gray-800 border border-gray-700 text-white px-3 py-1 rounded w-full focus:border-red-500 outline-none"
+                        placeholder="Level"
+                    />
+                    <button 
+                        onClick={handleUpdateLevel}
+                        className="bg-red-900/50 hover:bg-red-800 text-red-200 px-3 py-1 rounded border border-red-800 transition-colors"
+                    >
+                        Set
+                    </button>
+                </div>
                 <button 
                     onClick={handleResetDaily}
                     className="w-full text-left text-xs text-orange-400 hover:text-orange-300 transition-colors flex items-center gap-2"
                 >
-                    <RefreshCw className="w-3 h-3" /> Reset Daily Completion (Allow Retake)
+                    <RefreshCw className="w-3 h-3" /> Reset Daily Completion
+                </button>
+             </div>
+          </div>
+
+          {/* God Mode */}
+          <div className="space-y-4">
+             <h3 className="text-gray-500 uppercase text-xs font-bold flex items-center gap-2">
+                <Zap className="w-4 h-4" /> God Mode
+             </h3>
+             <div className="bg-black/40 p-4 rounded border border-gray-800 space-y-3">
+                <button 
+                    onClick={handleInfiniteXP}
+                    className="w-full bg-yellow-900/30 hover:bg-yellow-800/50 text-yellow-300 border border-yellow-800/50 px-3 py-2 rounded flex items-center justify-center gap-2 transition-colors"
+                >
+                    <Zap className="w-4 h-4" /> Add 1,000,000 XP
                 </button>
              </div>
           </div>
@@ -99,15 +130,11 @@ const AdminPanel: React.FC<AdminPanelProps> = ({
              </h3>
              <div className="bg-black/40 p-4 rounded border border-gray-800 space-y-3">
                 <button 
-                    onClick={handleInjectStats}
-                    className="w-full bg-indigo-900/30 hover:bg-indigo-800/50 text-indigo-300 border border-indigo-800/50 px-3 py-2 rounded flex items-center justify-center gap-2 transition-colors"
-                >
-                    <Terminal className="w-4 h-4" /> Inject Mock Data (+10 Quizzes)
-                </button>
-                <button 
                     onClick={() => setStats({
-                      totalQuizzes: 0, totalCorrect: 0, totalIncorrect: 0, totalScore: 0,
-                      subjects: { math: { correct: 0, incorrect: 0 }, english: { correct: 0, incorrect: 0 } }
+                      totalQuizzes: 0, totalCorrect: 0, totalIncorrect: 0, totalScore: 0, level: 1,
+                      topics: {},
+                      subjects: { math: { correct: 0, incorrect: 0 }, english: { correct: 0, incorrect: 0 } },
+                      credits: 0, inventory: [], equippedTheme: 'default'
                     })}
                     className="w-full bg-red-900/20 hover:bg-red-900/40 text-red-400 border border-red-900/30 px-3 py-2 rounded flex items-center justify-center gap-2 transition-colors"
                 >
@@ -126,8 +153,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({
                     view, 
                     streak,
                     statsSummary: {
-                        quizzes: stats.totalQuizzes,
-                        score: stats.totalScore
+                        level: stats.level,
                     }
                 }, null, 2)}</pre>
              </div>

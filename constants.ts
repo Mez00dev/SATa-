@@ -1,75 +1,98 @@
-import { QuestionData } from './types';
-
-// Fallback pool removed to ensure 100% AI generation.
-// The constants now only hold configuration and resource links.
-export const QUESTIONS: QuestionData = {
-  math: { easy: [], medium: [], hard: [] },
-  english: { easy: [], medium: [], hard: [] }
-};
-
 export const DIFFICULTY_SETTINGS = {
-  easy: { numQuestions: 10, timePerQ: 60 },
-  medium: { numQuestions: 15, timePerQ: 45 },
-  hard: { numQuestions: 20, timePerQ: 30 }
+  easy: { numQuestions: 20, timePerQ: 90 },   // 30 minutes total
+  medium: { numQuestions: 20, timePerQ: 30 }, // 10 minutes total
+  hard: { numQuestions: 20, timePerQ: 15 },   // 5 minutes total
 };
 
 export const STUDY_LINKS = [
   {
-    category: "Official HQ Resources",
+    category: "Official Elite HQ",
     links: [
       { title: "Bluebook™ Testing App (Required)", url: "https://bluebook.collegeboard.org/" },
-      { title: "College Board — SAT Suite", url: "https://satsuite.collegeboard.org/sat" },
-      { title: "Khan Academy — Official SAT Prep", url: "https://www.khanacademy.org/test-prep/sat" },
-      { title: "Full-Length Practice Tests", url: "https://satsuite.collegeboard.org/sat/practice-preparation/practice-tests" }
+      { title: "College Board — SAT Suite Home", url: "https://satsuite.collegeboard.org/sat" },
+      { title: "Khan Academy — Digital SAT Official", url: "https://www.khanacademy.org/test-prep/sat" },
+      { title: "SAT Score Bank (CollegeBoard)", url: "https://satsuitequestionbank.collegeboard.org/" },
     ]
   },
   {
-    category: "Math: Mastery",
+    category: "Math: Algebra Mastery",
     links: [
-      { title: "Desmos — Graphing Calculator", url: "https://www.desmos.com/calculator" },
-      { title: "Math is Fun — Algebra Index", url: "https://www.mathsisfun.com/algebra/index.html" },
-      { title: "Wolfram — Probability Concepts", url: "https://mathworld.wolfram.com/Probability.html" }
+      { title: "Linear Equations Masterclass", url: "https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:linear-equations-graphs" },
+      { title: "Systems of Equations Breakdown", url: "https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:systems-of-equations" },
+      { title: "Desmos Graphing Calculator", url: "https://www.desmos.com/calculator" }
     ]
   },
   {
-    category: "English: Mastery",
+    category: "English: Standard Conventions",
     links: [
-      { title: "Purdue OWL — Grammar Rules", url: "https://owl.purdue.edu/owl/general_writing/grammar/index.html" },
-      { title: "Grammarly Blog — Tips", url: "https://www.grammarly.com/blog/" },
-      { title: "Vocabulary.com", url: "https://www.vocabulary.com/" }
+      { title: "Purdue OWL — Punctuation Hub", url: "https://owl.purdue.edu/owl/general_writing/punctuation/index.html" },
+      { title: "The Ultimate Guide to Commas", url: "https://www.grammarly.com/blog/comma/" }
     ]
   }
 ];
 
 export const STRATEGIES = [
   {
-    category: "Digital Format Mastery",
+    category: "The Digital SAT Mindset",
     icon: "Monitor",
     tips: [
-      "Master the built-in tools: 'Mark for Review', 'Strikethrough', and the 'Reference Sheet'.",
-      "The test is adaptive. A harder second module means you did well in the first.",
-      "There is no penalty for guessing. Never leave a blank answer.",
-      "Master Desmos shortcuts like typing 'sqrt' or using the exponent hotkey '^'."
+      "The test is adaptive. A significantly harder second module is a badge of honor—it means you're in the elite scoring bracket.",
+      "Master the 'Mark for Review' button; it's your primary safety net for time management.",
+      "There is no penalty for guessing. Eliminate the obvious and commit to an answer before moving on.",
+      "Desmos is built-in. Use it for ANY question involving an equation, intersection, or function modeling."
     ]
   },
   {
-    category: "Math: Strategy",
+    category: "Math: Professional Tier",
     icon: "Brain",
     tips: [
-      "Backsolving: Plug the answer choices into the question, starting with C.",
-      "Picking Numbers: Replace abstract variables with small integers like 2 or 3.",
-      "Figures are not always to scale, but close. Use visual estimation to cull options.",
-      "Memorize 30-60-90 and 45-45-90 triangle properties."
+      "Plug-and-Chug: If variables are in the answer choices, plug in easy primes like 2, 3, or 5 to see which choice holds true.",
+      "Backsolving: Start with choice C for questions asking for a specific value. If it's too high, try A or B.",
+      "Discriminant Hack: Use b²-4ac for quadratic questions to immediately identify the number of roots."
     ]
   },
   {
-    category: "English: Tactics",
+    category: "English: Elite Precision",
     icon: "PenTool",
     tips: [
-      "Read the question stem BEFORE the passage to know what to look for.",
-      "Beware of extreme language: 'always', 'never', 'only' are usually wrong.",
-      "Shorter is often better. Conciseness is a hallmark of correct SAT writing answers.",
-      "Read the sentences before and after a transition word to confirm the logic."
+      "Conciseness is King: The shortest grammatically correct answer is correct over 60% of the time.",
+      "Sentence Boundaries: Periods, semicolons, and commas + conjunctions (FANBOYS) are logically identical.",
+      "Vocab Charge: Identify if the context is positive, negative, or neutral before looking at the word choices."
     ]
+  }
+];
+
+export const SHOP_ITEMS = [
+  {
+    id: 'theme_default',
+    name: 'Void Black',
+    description: 'The standard elite interface.',
+    price: 0,
+    type: 'theme',
+    color: 'from-gray-900 to-black'
+  },
+  {
+    id: 'theme_neon',
+    name: 'Cyberpunk',
+    description: 'High contrast neon aesthetics.',
+    price: 500,
+    type: 'theme',
+    color: 'from-indigo-600 to-purple-600'
+  },
+  {
+    id: 'theme_forest',
+    name: 'Zen Garden',
+    description: 'Calming greens for deep focus.',
+    price: 300,
+    type: 'theme',
+    color: 'from-emerald-600 to-teal-700'
+  },
+  {
+    id: 'theme_crimson',
+    name: 'Red Shift',
+    description: 'Aggressive red tones for speed.',
+    price: 400,
+    type: 'theme',
+    color: 'from-red-600 to-orange-700'
   }
 ];
